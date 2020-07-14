@@ -13,6 +13,7 @@ import { auth } from './firebase/firebase.utils';
 import { createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
 import CheckoutPage from './pages/checkout/checkout.component.jsx';
 
 class App extends React.Component {
