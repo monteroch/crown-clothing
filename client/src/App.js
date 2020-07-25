@@ -1,5 +1,4 @@
-import React from 'react';
-import { HomePage } from './pages/homepage/homepage.component';
+import React, { Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -9,10 +8,11 @@ import './App.css';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckoutPage from './pages/checkout/checkout.component.jsx';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
 
-import CheckoutPage from './pages/checkout/checkout.component.jsx';
+const HomePage = React.lazy(() => import('./pages/homepage/homepage.component.jsx'));
 
 const App = ({ checkUserSession, currentUser }) => {
 
@@ -24,7 +24,9 @@ const App = ({ checkUserSession, currentUser }) => {
     <div>
       <Header />
       <Switch>
-        <Route exact path='/' component={HomePage}/>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Route exact path='/' component={HomePage}/>
+        </Suspense>
         <Route path='/shop' component={ShopPage} />
         <Route exact path='/signin' render={() => currentUser ? (<Redirect to='/'/>) : <SignInAndSignUp/>}/> 
         <Route exact path='/checkout' component={CheckoutPage} />
